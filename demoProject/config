@@ -1,0 +1,3 @@
+auth=session
+storage=memory
+port=9000
