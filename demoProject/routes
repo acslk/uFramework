@@ -1,6 +1,6 @@
 GET 	/index						HomeController.home
-GET 	/login 						HomeController.login
-GET 	/logout 					HomeController.logout
+POST 	/login 						HomeController.login
+POST 	/logout 					HomeController.logout
 POST 	/account/addpost			AccountController.addPost
 GET		/account/posts				AccountController.getPosts
 GET 	/account/post/<?id*>		AccountController.getPost(id)
