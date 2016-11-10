@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/httpservice/httpservice.iml" filepath="$PROJECT_DIR$/httpservice/httpservice.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mvc/mvc.iml" filepath="$PROJECT_DIR$/mvc/mvc.iml" />
       <module fileurl="file://$PROJECT_DIR$/uFramework.iml" filepath="$PROJECT_DIR$/uFramework.iml" />
     </modules>
   </component>

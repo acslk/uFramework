@@ -2,6 +2,7 @@ package u.http;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.DecoderResult;
@@ -79,11 +80,9 @@ public class EchoServerHandler extends SimpleChannelInboundHandler<Object> {
                     buf.append("TRAILING HEADER NOT EMPTY??\n");
                 }
 
-                writeResponse(trailer, ctx);
-
-//                    if (!writeResponse(trailer, ctx)) {
-//                        ctx.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
-//                    }
+                if (!writeResponse(trailer, ctx)) {
+                    ctx.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
+                }
             }
         }
     }

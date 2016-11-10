@@ -47,7 +47,7 @@ public final class HttpMain {
             p.addLast(new HttpObjectAggregator(512*1024));
             //p.addLast(new HttpRequestDecoder());
             //p.addLast(new HttpResponseEncoder());
-            p.addLast(new EchoServerHandler());
+            p.addLast(new MainServerHandler());
         }
     }
 }
