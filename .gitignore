@@ -37,7 +37,9 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
-
 # build
 build/
 *.class
+
+# distribution
+dist/

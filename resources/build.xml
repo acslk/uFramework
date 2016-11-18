@@ -1,0 +1,31 @@
+<project>
+
+    <target name="clean">
+        <delete dir="build"/>
+        <delete dir="gen"/>
+    </target>
+
+    <target name="build">
+        <mkdir dir="build/classes"/>
+        <unjar dest="build/classes">
+            <fileset dir="lib/" includes="u.jar"/>
+        </unjar>
+        <javac srcdir="gen/" destdir="build/classes" includes="RequestHandler.java">
+            <classpath>
+                <pathelement location="lib/netty/netty-all-4.1.6.Final.jar"/>
+                <pathelement location="lib/commons-io-2.5/commons-io-2.5.jar"/>
+                <pathelement location="lib/u.jar"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="run">
+        <java classname="u.http.HttpMain">
+            <classpath>
+                <pathelement location="lib/netty/netty-all-4.1.6.Final.jar"/>
+                <pathelement location="build/classes/"/>
+            </classpath>
+        </java>
+    </target>
+
+</project>

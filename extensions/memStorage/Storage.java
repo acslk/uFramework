@@ -1,9 +1,9 @@
-package u.mvc;
+package memStorage;
 
 public interface Storage {
 
-	store(String value);
+	void store(String value);
 
-	remove(String value);
+	void remove(String value);
 
 }

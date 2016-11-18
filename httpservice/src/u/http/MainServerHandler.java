@@ -6,20 +6,27 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.*;
 
-import java.io.File;
-import java.net.URLClassLoader;
+import u.generated.RequestHandler;
+
+import java.lang.reflect.Method;
 
 import static io.netty.handler.codec.http.HttpResponseStatus.CONTINUE;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 public class MainServerHandler extends SimpleChannelInboundHandler<Object> {
 
-    Class requestHandler;
+    private Class requestHandler;
+    private Object requestHandlerInstance;
+    private Method handlerFn;
 
     public MainServerHandler() {
-//        File f = new File(".");
-//        ClassLoader cl = new URLClassLoader(f.toURI().toURL());
-
+        try {
+            requestHandler = Class.forName("u.generated.RequestHandler");
+            requestHandlerInstance = requestHandler.newInstance();
+            handlerFn = requestHandler.getMethod("handle", HttpRequest.class, HttpContent.class);
+        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -35,7 +42,8 @@ public class MainServerHandler extends SimpleChannelInboundHandler<Object> {
                 ctx.write(response);
             }
 
-            FullHttpResponse response = RequestHandler.handle(request, content);
+            FullHttpResponse response = (FullHttpResponse)handlerFn.invoke(requestHandlerInstance, request, content);
+            //FullHttpResponse response = RequestHandler.handle(request, content);
 
             response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/plain; charset=UTF-8");
 

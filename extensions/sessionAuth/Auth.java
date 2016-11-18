@@ -1,4 +1,4 @@
-package u.http;
+package sessionAuth;
 
 public interface Auth {
 
