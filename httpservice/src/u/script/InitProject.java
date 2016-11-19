@@ -8,7 +8,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Collectors;
@@ -24,20 +26,28 @@ public class InitProject {
 
     public static void main (String[] args) {
 
-        List<String> extensions = new ArrayList<>();
+        Set<String> extensions = new HashSet<>();
 
         try (Stream<String> stream = Files.lines(Paths.get("init"))) {
             extensions = stream
                     .filter(line -> !line.startsWith("using:"))
-                    .map(String::toUpperCase)
-                    .collect(Collectors.toList());
+                    //.map(String::toUpperCase)
+                    .collect(Collectors.toSet());
         } catch (IOException e) {
             System.out.println("Warning! Init file not found, default settings used");
         }
 
-        for (String ext : extensions) {
-            // load extension settings
-        }
+//        //TODO : remove
+//        extensions.add("routing");
+
+//        for (String ext : extensions) {
+//            String className = "uExt." + ext + ".UExtensionMain";
+//            try {
+//                Class extClass = Class.forName(className);
+//            } catch (ClassNotFoundException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
         File projectDir = new File("newProject");
         projectDir.mkdir();

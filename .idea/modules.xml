@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/extensions/extensions.iml" filepath="$PROJECT_DIR$/extensions/extensions.iml" />
       <module fileurl="file://$PROJECT_DIR$/httpservice/httpservice.iml" filepath="$PROJECT_DIR$/httpservice/httpservice.iml" />
       <module fileurl="file://$PROJECT_DIR$/uFramework.iml" filepath="$PROJECT_DIR$/uFramework.iml" />
     </modules>

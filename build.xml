@@ -17,6 +17,16 @@
         <!--<move file="build/classes/RequestHandler.class" todir="build/classes/u/http/"/>-->
     </target>
 
+    <target name="compileR">
+        <javac srcdir="extensions/routing/src" destdir="build/classes">
+            <classpath>
+                <pathelement location="lib/netty/netty-all-4.1.6.Final.jar"/>
+                <pathelement location="lib/commons-io-2.5/commons-io-2.5.jar"/>
+                <pathelement location="build/classes"/>
+            </classpath>
+        </javac>
+    </target>
+
     <target name="jar">
         <copy todir="build/classes/resources">
             <fileset dir="resources"/>
