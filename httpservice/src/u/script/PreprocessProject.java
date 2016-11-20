@@ -1,6 +1,7 @@
 package u.script;
 
 import org.apache.commons.io.FileUtils;
+import u.extension.ExtensionManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +15,9 @@ public class PreprocessProject {
         File output = new File(genDir, InitProject.HANDLER_FILE);
         FileUtils.write(output, "package u.generated;\n", true);
         FileUtils.write(output, FileUtils.readFileToString(input), true);
+
+        ExtensionManager extensionManager = new ExtensionManager();
+        extensionManager.preprocess();
     }
 
 }

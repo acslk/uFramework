@@ -1,8 +1,6 @@
 package u.http;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -10,8 +8,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
-
-import java.lang.reflect.Method;
+import u.extension.ExtensionManager;
 
 public final class HttpMain {
 
@@ -37,7 +34,10 @@ public final class HttpMain {
 
     public static void main (String[] args) throws Exception {
         HttpMain httpMain = new HttpMain();
+        ExtensionManager extensionManager = new ExtensionManager();
+        extensionManager.onStart();
         httpMain.startServer();
+        extensionManager.onStop();
     }
 
     private class HttpServerInitializer extends ChannelInitializer<SocketChannel> {

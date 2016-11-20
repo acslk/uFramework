@@ -5,6 +5,8 @@ import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpRequest;
 import u.http.Responses;
 
+// to be overridden by user defined class
+
 public class RequestHandler {
 
     public FullHttpResponse handle(HttpRequest request, HttpContent content) {

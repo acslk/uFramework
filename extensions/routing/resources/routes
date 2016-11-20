@@ -1,0 +1,2 @@
+GET     /       MyController.homeHandler
+GET     /index  MyController.homeHandler

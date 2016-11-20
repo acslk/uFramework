@@ -1,20 +1,10 @@
 package u.script;
 
 import org.apache.commons.io.FileUtils;
+import u.extension.ExtensionManager;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class InitProject {
 
@@ -23,33 +13,10 @@ public class InitProject {
     public static final String LIB_URL = "lib/";
     public static final String CONFIG_FILE = "config.properties";
     public static final String HANDLER_FILE = "RequestHandler.java";
+    public static final String PROJECT_DIR = "newProject";
 
     public static void main (String[] args) {
-
-        Set<String> extensions = new HashSet<>();
-
-        try (Stream<String> stream = Files.lines(Paths.get("init"))) {
-            extensions = stream
-                    .filter(line -> !line.startsWith("using:"))
-                    //.map(String::toUpperCase)
-                    .collect(Collectors.toSet());
-        } catch (IOException e) {
-            System.out.println("Warning! Init file not found, default settings used");
-        }
-
-//        //TODO : remove
-//        extensions.add("routing");
-
-//        for (String ext : extensions) {
-//            String className = "uExt." + ext + ".UExtensionMain";
-//            try {
-//                Class extClass = Class.forName(className);
-//            } catch (ClassNotFoundException e) {
-//                e.printStackTrace();
-//            }
-//        }
-
-        File projectDir = new File("newProject");
+        File projectDir = new File(PROJECT_DIR);
         projectDir.mkdir();
         File libDir = new File(projectDir, "lib");
         libDir.mkdir();
@@ -63,6 +30,9 @@ public class InitProject {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        ExtensionManager extensionManager = new ExtensionManager();
+        extensionManager.init();
     }
 
 }

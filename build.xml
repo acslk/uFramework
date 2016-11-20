@@ -3,6 +3,7 @@
     <target name="clean">
         <delete dir="build"/>
         <delete dir="dist"/>
+        <delete dir="newProject"/>
     </target>
 
     <target name="compile">
@@ -17,7 +18,7 @@
         <!--<move file="build/classes/RequestHandler.class" todir="build/classes/u/http/"/>-->
     </target>
 
-    <target name="compileR">
+    <target name="compileR" depends="compile">
         <javac srcdir="extensions/routing/src" destdir="build/classes">
             <classpath>
                 <pathelement location="lib/netty/netty-all-4.1.6.Final.jar"/>
@@ -27,11 +28,21 @@
         </javac>
     </target>
 
-    <target name="jar">
+    <target name="jar" depends="compile">
         <copy todir="build/classes/resources">
             <fileset dir="resources"/>
         </copy>
         <jar destfile="dist/u.jar" basedir="build/classes"/>
+    </target>
+
+    <target name="distR" depends="compileR">
+        <mkdir dir="dist/routing"/>
+        <copy todir="dist/routing/resources">
+            <fileset dir="extensions/routing/resources"/>
+        </copy>
+        <copy todir="dist/routing/uExt/routing">
+            <fileset dir="build/classes/uExt/routing"/>
+        </copy>
     </target>
 
     <target name="run">
@@ -40,6 +51,23 @@
                 <pathelement location="lib/netty/netty-all-4.1.6.Final.jar"/>
                 <pathelement location="lib/commons-io-2.5/commons-io-2.5.jar"/>
                 <pathelement location="build/classes/"/>
+            </classpath>
+        </java>
+    </target>
+
+    <path id="ext.path">
+        <fileset dir="dist">
+            <include name="**/" />
+        </fileset>
+    </path>
+
+    <target name="init" depends="distR,jar">
+        <java classname="u.script.InitProject">
+            <classpath>
+                <pathelement location="lib/netty/netty-all-4.1.6.Final.jar"/>
+                <pathelement location="lib/commons-io-2.5/commons-io-2.5.jar"/>
+                <pathelement location="dist/u.jar"/>
+                <path refid="ext.path" />
             </classpath>
         </java>
     </target>
