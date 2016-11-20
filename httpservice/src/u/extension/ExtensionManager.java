@@ -21,7 +21,7 @@ public class ExtensionManager {
 
     private void getExtFromInit() {
         extensions = new HashSet<>();
-        try (Stream<String> stream = Files.lines(Paths.get("init/init"))) {
+        try (Stream<String> stream = Files.lines(Paths.get("init"))) {
             Set<String> full = stream
                     .filter(line -> line.startsWith("using:"))
                     //.map(String::toUpperCase)
