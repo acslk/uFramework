@@ -28,6 +28,7 @@
 
     <target name="build" depends="clean">
         <mkdir dir="gen"/>
+        <mkdir dir="store"/>
         <java classname="u.script.PreprocessProject">
             <classpath>
                 <path refid="lib.path" />

@@ -11,7 +11,7 @@ public class UExtensionMain implements UExtension {
 
     @Override
     public void init() {
-        File controllerDir = new File(InitPaths.PROJECT_SRC_DIR, "controllers");
+        File controllerDir = new File(InitPaths.PROJECT_APP_DIR, "controllers");
         controllerDir.mkdir();
         System.out.println("made controller directory");
         try {

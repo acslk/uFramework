@@ -17,6 +17,7 @@ public class InitProject {
     public static void main (String[] args) {
         InitPaths.PROJECT_DIR.mkdir();
         InitPaths.PROJECT_LIB_DIR.mkdir();
+        InitPaths.PROJECT_EXT_LIB_DIR.mkdir();
 
         File libDest = new File(InitPaths.PROJECT_LIB_DIR, "u.jar");
 //        File handlerDest = new File(projectDir, HANDLER_FILE);

@@ -8,9 +8,10 @@ import java.io.FileNotFoundException;
 public class InitPaths {
 
     public static final File PROJECT_DIR = new File("newProject");
-    public static final File PROJECT_SRC_DIR = new File(PROJECT_DIR, "app");
+    public static final File PROJECT_APP_DIR = new File(PROJECT_DIR, "app");
     public static final File PROJECT_LIB_DIR = new File(PROJECT_DIR, "lib");
     public static final File PROJECT_BIN_DIR = new File(PROJECT_DIR, "bin");
+    public static final File PROJECT_EXT_LIB_DIR = new File(PROJECT_LIB_DIR, "extension");
 
     public static final File DIST_DIR = new File("dist");
 
@@ -18,10 +19,8 @@ public class InitPaths {
         return PathsCommon.getExtResource(DIST_DIR, ext, resourcePath);
     }
 
-    public static File getProjectExtDir(String ext) {
-        File extDir = new File(PROJECT_LIB_DIR, "extension");
-        extDir.mkdir();
-        return new File(extDir, ext);
+    public static File getProjectExtLibDir(String ext) {
+        return new File(PROJECT_EXT_LIB_DIR, ext);
     }
 
 
