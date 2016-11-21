@@ -12,4 +12,6 @@ public interface UExtension {
 
     void stopServer();
 
+    String getName();
+
 }

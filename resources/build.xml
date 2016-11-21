@@ -1,29 +1,63 @@
 <project>
 
+    <property name="build.dir" value="build/classes"/>
+
+    <property name="lib.dir" value="lib"/>
+    <property name="netty.jar" value="${lib.dir}/netty/netty-all-4.1.6.Final.jar"/>
+    <property name="apacheio.jar" value="${lib.dir}/commons-io-2.5/commons-io-2.5.jar"/>
+    <property name="u.jar" value="${lib.dir}/u.jar"/>
+    <property name="lib.extension.dir" value="${lib.dir}/extension"/>
+
+    <path id="ext.path">
+        <dirset dir="${lib.extension.dir}">
+            <include name="*" />
+        </dirset>
+    </path>
+
+    <path id="lib.path">
+        <pathelement location="${netty.jar}"/>
+        <pathelement location="${apacheio.jar}"/>
+        <pathelement location="${u.jar}"/>
+        <path refid="ext.path" />
+    </path>
+
     <target name="clean">
         <delete dir="build"/>
         <delete dir="gen"/>
     </target>
 
-    <target name="build">
-        <mkdir dir="build/classes"/>
-        <unjar dest="build/classes">
+    <target name="build" depends="clean">
+        <mkdir dir="gen"/>
+        <java classname="u.script.PreprocessProject">
+            <classpath>
+                <path refid="lib.path" />
+            </classpath>
+        </java>
+        <mkdir dir="${build.dir}"/>
+        <unjar dest="${build.dir}">
             <fileset dir="lib/" includes="u.jar"/>
         </unjar>
-        <javac srcdir="gen/" destdir="build/classes" includes="RequestHandler.java">
+        <javac srcdir="gen/" destdir="${build.dir}" includes="RequestHandler.java">
             <classpath>
-                <pathelement location="lib/netty/netty-all-4.1.6.Final.jar"/>
-                <pathelement location="lib/commons-io-2.5/commons-io-2.5.jar"/>
-                <pathelement location="lib/u.jar"/>
+                <path refid="lib.path" />
             </classpath>
         </javac>
+        <javac srcdir="app/" destdir="${build.dir}" excludes="RequestHandler.java">
+            <classpath>
+                <path refid="lib.path" />
+            </classpath>
+        </javac>
+        <java classname="u.script.PostBuildProject">
+            <classpath>
+                <path refid="lib.path" />
+            </classpath>
+        </java>
     </target>
 
-    <target name="run">
+    <target name="run" depends="build">
         <java classname="u.http.HttpMain">
             <classpath>
-                <pathelement location="lib/netty/netty-all-4.1.6.Final.jar"/>
-                <pathelement location="build/classes/"/>
+                <path refid="lib.path" />
             </classpath>
         </java>
     </target>

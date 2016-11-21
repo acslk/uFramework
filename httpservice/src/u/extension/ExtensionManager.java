@@ -1,11 +1,15 @@
 package u.extension;
 
+import org.apache.commons.io.FileUtils;
+import u.script.InitPaths;
 import u.script.InitProject;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.cert.Extension;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -33,7 +37,7 @@ public class ExtensionManager {
     }
 
     private void makeStoredExt() throws IOException {
-        Files.write(Paths.get(InitProject.PROJECT_DIR + "/bin/" + STORED_FILE), extensions);
+        Files.write(Paths.get(InitPaths.PROJECT_BIN_DIR.getPath() + "/" + STORED_FILE), extensions);
     }
 
     private void getExtFromStored() {
@@ -67,7 +71,15 @@ public class ExtensionManager {
     public void init() {
 
         getExtFromInit();
-        getExtClasses().forEach(UExtension::init);
+        for (UExtension extension : getExtClasses()) {
+            extension.init();
+            File extDir = new File(InitPaths.DIST_DIR, extension.getName());
+            try {
+                FileUtils.copyDirectory(extDir, InitPaths.getProjectExtDir(extension.getName()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         try {
             makeStoredExt();

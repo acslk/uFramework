@@ -1,72 +1,78 @@
 <project>
 
+    <property name="build.dir" value="build/classes"/>
+    <property name="dist.dir" value="dist"/>
+    <property name="dist.jar" value="${dist.dir}/u.jar"/>
+    <property name="httpsrc.dir" value="httpservice/src"/>
+    <property name="lib.dir" value="lib"/>
+    <property name="netty.jar" value="${lib.dir}/netty/netty-all-4.1.6.Final.jar"/>
+    <property name="apacheio.jar" value="${lib.dir}/commons-io-2.5/commons-io-2.5.jar"/>
+
+    <path id="ext.path">
+        <dirset dir="dist">
+            <include name="*" />
+        </dirset>
+    </path>
+
     <target name="clean">
-        <delete dir="build"/>
-        <delete dir="dist"/>
+        <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}"/>
         <delete dir="newProject"/>
     </target>
 
     <target name="compile">
-        <mkdir dir="build/classes"/>
-        <!--<javac srcdir="httpservice/src:extensions/" destdir="build/classes">-->
-        <javac srcdir="httpservice/src" destdir="build/classes">
+        <mkdir dir="${build.dir}"/>
+        <javac srcdir="${httpsrc.dir}" destdir="${build.dir}">
             <classpath>
-                <pathelement location="lib/netty/netty-all-4.1.6.Final.jar"/>
-                <pathelement location="lib/commons-io-2.5/commons-io-2.5.jar"/>
+                <pathelement location="${netty.jar}"/>
+                <pathelement location="${apacheio.jar}"/>
             </classpath>
         </javac>
-        <!--<move file="build/classes/RequestHandler.class" todir="build/classes/u/http/"/>-->
     </target>
 
     <target name="compileR" depends="compile">
-        <javac srcdir="extensions/routing/src" destdir="build/classes">
+        <javac srcdir="extensions/routing/src" destdir="${build.dir}">
             <classpath>
-                <pathelement location="lib/netty/netty-all-4.1.6.Final.jar"/>
-                <pathelement location="lib/commons-io-2.5/commons-io-2.5.jar"/>
-                <pathelement location="build/classes"/>
+                <pathelement location="${netty.jar}"/>
+                <pathelement location="${apacheio.jar}"/>
+                <pathelement location="${build.dir}"/>
             </classpath>
         </javac>
     </target>
 
     <target name="jar" depends="compile">
-        <copy todir="build/classes/resources">
+        <copy todir="${build.dir}/resources">
             <fileset dir="resources"/>
         </copy>
-        <jar destfile="dist/u.jar" basedir="build/classes"/>
+        <jar destfile="${dist.jar}" basedir="${build.dir}"/>
     </target>
 
     <target name="distR" depends="compileR">
-        <mkdir dir="dist/routing"/>
-        <copy todir="dist/routing/resources">
+        <mkdir dir="${dist.dir}/routing"/>
+        <copy todir="${dist.dir}/routing/resources">
             <fileset dir="extensions/routing/resources"/>
         </copy>
-        <copy todir="dist/routing/uExt/routing">
-            <fileset dir="build/classes/uExt/routing"/>
+        <copy todir="${dist.dir}/routing/uExt/routing">
+            <fileset dir="${build.dir}/uExt/routing"/>
         </copy>
     </target>
 
     <target name="run">
         <java classname="u.http.HttpMain">
             <classpath>
-                <pathelement location="lib/netty/netty-all-4.1.6.Final.jar"/>
-                <pathelement location="lib/commons-io-2.5/commons-io-2.5.jar"/>
-                <pathelement location="build/classes/"/>
+                <pathelement location="${netty.jar}"/>
+                <pathelement location="${apacheio.jar}"/>
+                <pathelement location="${build.dir}/"/>
             </classpath>
         </java>
     </target>
 
-    <path id="ext.path">
-        <fileset dir="dist">
-            <include name="**/" />
-        </fileset>
-    </path>
-
-    <target name="init" depends="distR,jar">
+    <target name="init" depends="jar,distR">
         <java classname="u.script.InitProject">
             <classpath>
-                <pathelement location="lib/netty/netty-all-4.1.6.Final.jar"/>
-                <pathelement location="lib/commons-io-2.5/commons-io-2.5.jar"/>
-                <pathelement location="dist/u.jar"/>
+                <pathelement location="${netty.jar}"/>
+                <pathelement location="${apacheio.jar}"/>
+                <pathelement location="${dist.jar}"/>
                 <path refid="ext.path" />
             </classpath>
         </java>
