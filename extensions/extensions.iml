@@ -7,6 +7,7 @@
       <sourceFolder url="file://$MODULE_DIR$/routing/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/auth/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/model/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/template/src" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -26,6 +27,15 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../lib/netty/netty-all-4.1.6.Final.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../lib/jknack-handlebars.java-1f6c48e/handlebars-4.0.6.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
