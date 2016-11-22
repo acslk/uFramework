@@ -20,7 +20,7 @@ public class HandlebarsTemplateEngine extends UExtensionMain {
      * Constructs a handlebars template engine
      */
     public HandlebarsTemplateEngine() {
-        this("/templates");
+        this("/views");
     }
 
     /**
@@ -50,6 +50,22 @@ public class HandlebarsTemplateEngine extends UExtensionMain {
         try {
             Template template = handlebars.compile(viewName);
             return template.apply(model);
+        } catch (IOException e) {
+            throw e;
+        }
+    }
+
+    /**
+     *
+     * @param inlineTemplate "Hello {{this}}!"
+     * @param model            "I am Richard"
+     * @return
+     * @throws IOException
+     */
+    public String renderInLine(String inlineTemplate, String model) throws IOException {
+        try {
+            Template template = handlebars.compileInline(inlineTemplate);
+            return (template.apply(model));
         } catch (IOException e) {
             throw e;
         }

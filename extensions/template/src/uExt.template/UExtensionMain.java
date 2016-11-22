@@ -18,17 +18,17 @@ public class UExtensionMain  implements UExtension {
         return "";
     }
 
+    public String renderInLine(String inlineTemplate, String model) throws IOException {
+        return "";
+    }
+
 
     @Override
     public void init() {
-        File controllerDir = new File(InitPaths.PROJECT_APP_DIR, "controllers");
+        File controllerDir = new File(InitPaths.PROJECT_APP_DIR, "views");
         controllerDir.mkdir();
-        System.out.println("made controller directory");
-        try {
-            FileUtils.copyDirectory(InitPaths.getExtResource("routing", ""), controllerDir);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        System.out.println("made view directory");
+
     }
 
     @Override
