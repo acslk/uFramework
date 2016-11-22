@@ -5,7 +5,9 @@ import java.io.IOException;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
+import com.github.jknack.handlebars.io.FileTemplateLoader;
 import com.github.jknack.handlebars.io.TemplateLoader;
+import u.script.BuiltPaths;
 
 /**
  * Renders HTML from Route output using
@@ -20,7 +22,7 @@ public class HandlebarsTemplateEngine extends UExtensionMain {
      * Constructs a handlebars template engine
      */
     public HandlebarsTemplateEngine() {
-        this("/views");
+        this(BuiltPaths.APP_DIR + "/views");
     }
 
     /**
@@ -29,8 +31,7 @@ public class HandlebarsTemplateEngine extends UExtensionMain {
      * @param resourceRoot the resource root
      */
     public HandlebarsTemplateEngine(String resourceRoot) {
-        TemplateLoader templateLoader = new ClassPathTemplateLoader();
-        templateLoader.setPrefix(resourceRoot);
+        TemplateLoader templateLoader = new FileTemplateLoader(resourceRoot);
         templateLoader.setSuffix(null);
 
         handlebars = new Handlebars(templateLoader);
