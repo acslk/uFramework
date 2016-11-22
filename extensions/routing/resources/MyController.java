@@ -18,7 +18,7 @@ public class MyController extends Controller {
     }
 
     //GET
-    public FullHttpResponse homeHandler(HttpRequest request, HttpContent content) {
+    public FullHttpResponse homeHandler() {
         return Responses.ok("Hello World");
     }
 

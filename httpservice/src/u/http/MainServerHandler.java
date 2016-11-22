@@ -6,8 +6,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.*;
 
-import u.generated.RequestHandler;
-
 import java.lang.reflect.Method;
 
 import static io.netty.handler.codec.http.HttpResponseStatus.CONTINUE;
@@ -21,9 +19,9 @@ public class MainServerHandler extends SimpleChannelInboundHandler<Object> {
 
     public MainServerHandler() {
         try {
-            requestHandler = Class.forName("u.generated.RequestHandler");
+            requestHandler = Class.forName("uExt.routing.Routing");
             requestHandlerInstance = requestHandler.newInstance();
-            handlerFn = requestHandler.getMethod("handle", HttpRequest.class, HttpContent.class);
+            handlerFn = requestHandler.getMethod("routing", HttpRequest.class, HttpContent.class);
         } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException e) {
             throw new RuntimeException(e);
         }

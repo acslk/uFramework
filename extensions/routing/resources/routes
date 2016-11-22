@@ -9,8 +9,8 @@
 
 #[TYPE]: assume commmon type: String / Integer
 
-GET /index Test.TestRouting.printHelloWorld()
-GET /client/:[Integer]id Test.TestRouting.printClientById([Integer] id)
+#invoke this route like: /client/:3
+GET /client/:[Integer]id MyController.printClientById([Integer] id)
 
 GET     /       MyController.homeHandler
 GET     /index  MyController.homeHandler

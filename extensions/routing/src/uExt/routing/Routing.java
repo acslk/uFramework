@@ -1,5 +1,6 @@
 package uExt.routing;
 
+import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpRequest;
 import u.script.InitPaths;
 
@@ -19,7 +20,6 @@ import java.util.regex.Pattern;
 public class Routing {
     ArrayList<String> routes = new ArrayList<>();
     public void readConfig(){
-
             //read from route file
             File routeConfig = new File(InitPaths.PROJECT_APP_DIR, "controllers/routes");
             BufferedReader reader = null;
@@ -52,9 +52,15 @@ public class Routing {
         String handler = "";
         String paramType ="";
         String param = "";
+        boolean matched = false;
+
+        //TODO hardcode the route of '/'
+        if(httpReq.equals("/")){
+            handler =  "MyController.homeHandler";
+        }
 
         //go thru routes to find a match
-        for(String route: this.routes){
+        for(String route: routes){
             String[] substrings = route.split("\\s+");
             String urlConfig = substrings[1];
             //get the type of parameter if exits
@@ -63,7 +69,10 @@ public class Routing {
             Matcher configMatcher = pattern.matcher(urlConfig);
             Matcher reqMatcher = pattern.matcher(httpReq);
             int groupCnt = 0; // count amt of groups that have been processed
-            boolean matched = false;
+            int requestSegmentCnt = getSegCnt(reqMatcher );
+            //reset matcher
+            reqMatcher = pattern.matcher(httpReq);
+            matched = false;
 
             while(reqMatcher.find() && configMatcher.find()){
                 for(int i = 0 ; i <= reqMatcher.groupCount(); i++){
@@ -71,7 +80,7 @@ public class Routing {
                 }
                 if(reqMatcher.group(2).equals(configMatcher.group(2))){
                     groupCnt++;
-                    if(!reqMatcher.find() && !configMatcher.find()){
+                    if(groupCnt == requestSegmentCnt){
                         matched = true;
                         break;
                     }
@@ -97,6 +106,12 @@ public class Routing {
         executeHandler(handler, param, paramType);
     }
 
+    private static int getSegCnt(Matcher reqMatcher) {
+        int counter = 0;
+        while(reqMatcher.find()) counter++;
+        return counter;
+    }
+
     private static void executeHandler(String handlerCode, String param, String paramType){
         System.out.println("Code to execute: "+ handlerCode);
         //prepare parameters
@@ -116,7 +131,7 @@ public class Routing {
         String classPath = handlerCode.substring(0, idx);
 
         try {// NOT ALLOWED to include class from test code
-            Class c = Class.forName(classPath);
+            Class c = Class.forName("controller."+classPath);
             System.out.println("Class found = " + c.getName());
             Object obj = c.newInstance();
             Method method = null;
@@ -147,12 +162,17 @@ public class Routing {
         }
     }
 
-    public void routing(HttpRequest httpRequest){
+    public void routing(HttpRequest httpRequest, HttpContent content){
         if(routes.size() == 0 ){
             readConfig();
         }// read route file if routes =  empty
+        for(String route: routes){
+            System.out.println("CURRENT ROUTE: "+ route);
+        }
+        System.out.println("RECEIVED REQUEST: "+ httpRequest);
 
         String reqUrl = httpRequest.uri();
+        System.out.println("REQUEST URL "+ reqUrl);
         //process url
         assert(!reqUrl.equals(""));
         processingRoute(reqUrl);
