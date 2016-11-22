@@ -61,7 +61,7 @@ public class Routing {
             }
     }
 
-    private static FullHttpResponse processingRoute(String httpReq){
+    private static FullHttpResponse processingRoute(String httpReq, HttpRequest request, HttpContent content){
         //for each request go thru the routes list to find a match
         String handler = "";
         String paramType ="";
@@ -89,7 +89,7 @@ public class Routing {
 
             while(reqMatcher.find() && configMatcher.find()){
                 for(int i = 0 ; i <= reqMatcher.groupCount(); i++){
-                    System.out.println(reqMatcher.group(i)+ " " + configMatcher.group(i));
+                    //System.out.println(reqMatcher.group(i)+ " " + configMatcher.group(i));
                 }
                 if(reqMatcher.group(2).equals(configMatcher.group(2))){
                     groupCnt++;
@@ -112,11 +112,11 @@ public class Routing {
         }
 
         if(handler.equals("")){
-            System.out.println("ERROR: no match for current request, please verify route.conf");
+            //System.out.println("ERROR: no match for current request, please verify route.conf");
             return Responses.notFound("Page not found");
         }
         //call the handler
-        return executeHandler(handler, param, paramType);
+        return executeHandler(handler, param, paramType, request, content);
     }
 
     private static int getSegCnt(Matcher reqMatcher) {
@@ -125,8 +125,8 @@ public class Routing {
         return counter;
     }
 
-    private static FullHttpResponse executeHandler(String handlerCode, String param, String paramType){
-        System.out.println("Code to execute: "+ handlerCode);
+    private static FullHttpResponse executeHandler(String handlerCode, String param, String paramType, HttpRequest request, HttpContent content){
+        //System.out.println("Code to execute: "+ handlerCode);
         //prepare parameters
         Class noparams[] = {};
         //String parameter
@@ -147,8 +147,9 @@ public class Routing {
 
         try {// NOT ALLOWED to include class from test code
             Class c = Class.forName("controllers."+classPath);
-            System.out.println("Class found = " + c.getName());
+            //System.out.println("Class found = " + c.getName());
             Object obj = c.newInstance();
+            ((Controller)obj).setRequestInfo(request, content);
             Method method = null;
             //invoke method
             if(!param.equals("") && !paramType.equals("")){
@@ -183,14 +184,14 @@ public class Routing {
             readConfig();
         }// read route file if routes =  empty
         for(String route: routes){
-            System.out.println("CURRENT ROUTE: "+ route);
+            //System.out.println("CURRENT ROUTE: "+ route);
         }
-        System.out.println("RECEIVED REQUEST: "+ httpRequest);
+        //System.out.println("RECEIVED REQUEST: "+ httpRequest);
 
         String reqUrl = httpRequest.uri();
-        System.out.println("REQUEST URL "+ reqUrl);
+        //System.out.println("REQUEST URL "+ reqUrl);
         //process url
         assert(!reqUrl.equals(""));
-        return processingRoute(reqUrl);
+        return processingRoute(reqUrl, httpRequest, content);
     }
 }

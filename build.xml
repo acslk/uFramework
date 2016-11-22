@@ -131,4 +131,22 @@
         </java>
     </target>
 
+    <target name="updateDemoLib" depends="jar,distR,distModel, distAuth, distT">
+        <copy todir="abc">
+            <fileset dir="demo/app"/>
+        </copy>
+        <java classname="u.script.InitProject">
+            <classpath>
+                <pathelement location="${netty.jar}"/>
+                <pathelement location="${apacheio.jar}"/>
+                <pathelement location="${dist.jar}"/>
+                <path refid="ext.path" />
+            </classpath>
+        </java>
+        <copy todir="demo/app">
+            <fileset dir="abc"/>
+        </copy>
+        <delete dir="abc"/>
+    </target>
+
 </project>

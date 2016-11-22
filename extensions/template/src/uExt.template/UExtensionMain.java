@@ -53,7 +53,7 @@ public class UExtensionMain  implements UExtension {
 
     @Override
     public String getName() {
-        return "routing";
+        return "template";
     }
 
 }
