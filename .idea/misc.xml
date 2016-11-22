@@ -41,6 +41,29 @@
   <component name="EntryPointsManager">
     <entry_points version="2.0" />
   </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/extensions/template/src/jknack-handlebars.java-1f6c48e/pom.xml" />
+        <option value="$PROJECT_DIR$/lib/jknack-handlebars.java-1f6c48e/pom.xml" />
+      </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/extensions/template/src/jknack-handlebars.java-1f6c48e/handlebars-guava-cache/pom.xml" />
+        <option value="$PROJECT_DIR$/extensions/template/src/jknack-handlebars.java-1f6c48e/handlebars-helpers/pom.xml" />
+        <option value="$PROJECT_DIR$/extensions/template/src/jknack-handlebars.java-1f6c48e/handlebars-humanize/pom.xml" />
+        <option value="$PROJECT_DIR$/extensions/template/src/jknack-handlebars.java-1f6c48e/handlebars-jackson2/pom.xml" />
+        <option value="$PROJECT_DIR$/extensions/template/src/jknack-handlebars.java-1f6c48e/handlebars-jdk8-tests/pom.xml" />
+        <option value="$PROJECT_DIR$/extensions/template/src/jknack-handlebars.java-1f6c48e/handlebars-markdown/pom.xml" />
+        <option value="$PROJECT_DIR$/extensions/template/src/jknack-handlebars.java-1f6c48e/handlebars-maven-plugin-tests/pom.xml" />
+        <option value="$PROJECT_DIR$/extensions/template/src/jknack-handlebars.java-1f6c48e/handlebars-maven-plugin/pom.xml" />
+        <option value="$PROJECT_DIR$/extensions/template/src/jknack-handlebars.java-1f6c48e/handlebars-proto/pom.xml" />
+        <option value="$PROJECT_DIR$/extensions/template/src/jknack-handlebars.java-1f6c48e/handlebars-springmvc/pom.xml" />
+        <option value="$PROJECT_DIR$/extensions/template/src/jknack-handlebars.java-1f6c48e/handlebars/pom.xml" />
+      </set>
+    </option>
+  </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
