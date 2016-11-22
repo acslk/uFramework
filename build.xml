@@ -40,6 +40,16 @@
         </javac>
     </target>
 
+    <target name="compileModel" depends="compile">
+        <javac srcdir="extensions/model/src" destdir="${build.dir}">
+            <classpath>
+                <pathelement location="${netty.jar}"/>
+                <pathelement location="${apacheio.jar}"/>
+                <pathelement location="${build.dir}"/>
+            </classpath>
+        </javac>
+    </target>
+
     <target name="jar" depends="compile">
         <copy todir="${build.dir}/resources">
             <fileset dir="resources"/>
@@ -57,6 +67,10 @@
         </copy>
     </target>
 
+    <target name="distModel" depends="compileModel">
+        <mkdir dir="${dist.dir}/model"/>
+    </target>
+
     <target name="run">
         <java classname="u.http.HttpMain">
             <classpath>
@@ -67,7 +81,7 @@
         </java>
     </target>
 
-    <target name="init" depends="jar,distR">
+    <target name="init" depends="jar,distR,distModel">
         <java classname="u.script.InitProject">
             <classpath>
                 <pathelement location="${netty.jar}"/>
