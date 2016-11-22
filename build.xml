@@ -50,6 +50,16 @@
         </javac>
     </target>
 
+    <target name="compileAuth" depends="compile">
+        <javac srcdir="extensions/auth/src" destdir="${build.dir}">
+            <classpath>
+                <pathelement location="${netty.jar}"/>
+                <pathelement location="${apacheio.jar}"/>
+                <pathelement location="${build.dir}"/>
+            </classpath>
+        </javac>
+    </target>
+
     <target name="jar" depends="compile">
         <copy todir="${build.dir}/resources">
             <fileset dir="resources"/>
@@ -74,6 +84,13 @@
         </copy>
     </target>
 
+    <target name="distAuth" depends="compileAuth">
+        <mkdir dir="${dist.dir}/auth"/>
+        <copy todir="${dist.dir}/auth/uExt/auth">
+            <fileset dir="${build.dir}/uExt/auth"/>
+        </copy>
+    </target>
+
     <target name="run">
         <java classname="u.http.HttpMain">
             <classpath>
@@ -84,7 +101,7 @@
         </java>
     </target>
 
-    <target name="init" depends="jar,distR,distModel">
+    <target name="init" depends="jar,distR,distModel,distAuth">
         <java classname="u.script.InitProject">
             <classpath>
                 <pathelement location="${netty.jar}"/>

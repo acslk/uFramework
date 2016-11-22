@@ -1,3 +1,4 @@
 using:routing
 using:model
+using:auth
 project:newProject
