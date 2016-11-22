@@ -17,7 +17,6 @@
     <path id="lib.path">
         <pathelement location="${netty.jar}"/>
         <pathelement location="${apacheio.jar}"/>
-        <pathelement location="${u.jar}"/>
         <path refid="ext.path" />
     </path>
 
@@ -32,25 +31,29 @@
         <java classname="u.script.PreprocessProject">
             <classpath>
                 <path refid="lib.path" />
+                <pathelement location="${u.jar}"/>
             </classpath>
         </java>
         <mkdir dir="${build.dir}"/>
         <unjar dest="${build.dir}">
             <fileset dir="lib/" includes="u.jar"/>
         </unjar>
+        <javac srcdir="app/" destdir="${build.dir}">
+            <classpath>
+                <path refid="lib.path" />
+                <pathelement location="${build.dir}"/>
+            </classpath>
+        </javac>
         <javac srcdir="gen/" destdir="${build.dir}" includes="RequestHandler.java">
             <classpath>
                 <path refid="lib.path" />
-            </classpath>
-        </javac>
-        <javac srcdir="app/" destdir="${build.dir}" excludes="RequestHandler.java">
-            <classpath>
-                <path refid="lib.path" />
+                <pathelement location="${build.dir}"/>
             </classpath>
         </javac>
         <java classname="u.script.PostBuildProject">
             <classpath>
                 <path refid="lib.path" />
+                <pathelement location="${build.dir}"/>
             </classpath>
         </java>
     </target>
@@ -59,6 +62,7 @@
         <java classname="u.http.HttpMain">
             <classpath>
                 <path refid="lib.path" />
+                <pathelement location="${build.dir}"/>
             </classpath>
         </java>
     </target>
