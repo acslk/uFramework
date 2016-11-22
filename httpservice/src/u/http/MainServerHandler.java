@@ -19,9 +19,9 @@ public class MainServerHandler extends SimpleChannelInboundHandler<Object> {
 
     public MainServerHandler() {
         try {
-            requestHandler = Class.forName("uExt.routing.Routing");
+            requestHandler = Class.forName("u.generated.RequestHandler");
             requestHandlerInstance = requestHandler.newInstance();
-            handlerFn = requestHandler.getMethod("routing", HttpRequest.class, HttpContent.class);
+            handlerFn = requestHandler.getMethod("handle", HttpRequest.class, HttpContent.class);
         } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException e) {
             throw new RuntimeException(e);
         }

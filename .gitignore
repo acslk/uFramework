@@ -49,3 +49,5 @@ newProject/
 
 # demo library
 demo/lib/
+demo/gen/
+demo/build/

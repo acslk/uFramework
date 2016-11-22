@@ -12,5 +12,6 @@
 #invoke this route like: /client/:3
 GET /client/:[Integer]id MyController.printClientById([Integer] id)
 
-GET     /       MyController.homeHandler
-GET     /index  MyController.homeHandler
+GET     /                       MyController.homeHandler
+GET     /index                  MyController.homeHandler
+GET     /client/:[Integer]id    MyController.printClientById([Integer] id)

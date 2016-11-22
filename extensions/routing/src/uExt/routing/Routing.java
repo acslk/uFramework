@@ -1,7 +1,10 @@
 package uExt.routing;
 
+import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpRequest;
+import u.http.Responses;
+import u.script.BuiltPaths;
 import u.script.InitPaths;
 
 import java.io.BufferedReader;
@@ -11,20 +14,34 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by Weilong on 2016-11-21.
- */
 public class Routing {
-    ArrayList<String> routes = new ArrayList<>();
-    public void readConfig(){
+
+    private static final Pattern pattern = Pattern.compile("([^(http)(https)])([^/]+)");
+    private static final Pattern typePattern = Pattern.compile("\\[(.*?)\\]");
+
+    private static class RouteInfo {
+        Class<? extends Controller> controllerClass;
+        String param;
+        String paramType;
+        Method handler;
+        RouteInfo(String line) {
+
+        }
+    }
+
+    private static List<RouteInfo> routeInfos;
+
+    private static List<String> routes = new ArrayList<>();
+    public static void readConfig(){
             //read from route file
-            File routeConfig = new File(InitPaths.PROJECT_APP_DIR, "controllers/routes");
+            File routeConfig = new File(BuiltPaths.APP_DIR, "controllers/routes");
             BufferedReader reader = null;
-            String curLine = "";
             try{
+                String curLine;
                 reader = new BufferedReader(new FileReader(routeConfig));
                 while((curLine = reader.readLine()) != null ){
                     if(curLine.length()>0 && curLine.charAt(0) !='#'){// skip blank line && comment
@@ -42,17 +59,13 @@ public class Routing {
                     }
                 }
             }
-
     }
 
-    private void processingRoute(String httpReq){
+    private static FullHttpResponse processingRoute(String httpReq){
         //for each request go thru the routes list to find a match
-        Pattern pattern = Pattern.compile("([^(http)(https)])([^/]+)");
-        Pattern typePattern = Pattern.compile("\\[(.*?)\\]");
         String handler = "";
         String paramType ="";
         String param = "";
-        boolean matched = false;
 
         //TODO hardcode the route of '/'
         if(httpReq.equals("/")){
@@ -72,7 +85,7 @@ public class Routing {
             int requestSegmentCnt = getSegCnt(reqMatcher );
             //reset matcher
             reqMatcher = pattern.matcher(httpReq);
-            matched = false;
+            boolean matched = false;
 
             while(reqMatcher.find() && configMatcher.find()){
                 for(int i = 0 ; i <= reqMatcher.groupCount(); i++){
@@ -100,10 +113,10 @@ public class Routing {
 
         if(handler.equals("")){
             System.out.println("ERROR: no match for current request, please verify route.conf");
-            return;
+            return Responses.notFound("Page not found");
         }
         //call the handler
-        executeHandler(handler, param, paramType);
+        return executeHandler(handler, param, paramType);
     }
 
     private static int getSegCnt(Matcher reqMatcher) {
@@ -112,7 +125,7 @@ public class Routing {
         return counter;
     }
 
-    private static void executeHandler(String handlerCode, String param, String paramType){
+    private static FullHttpResponse executeHandler(String handlerCode, String param, String paramType){
         System.out.println("Code to execute: "+ handlerCode);
         //prepare parameters
         Class noparams[] = {};
@@ -130,8 +143,10 @@ public class Routing {
         int idx = handlerCode.lastIndexOf(".");
         String classPath = handlerCode.substring(0, idx);
 
+        FullHttpResponse response = null;
+
         try {// NOT ALLOWED to include class from test code
-            Class c = Class.forName("controller."+classPath);
+            Class c = Class.forName("controllers."+classPath);
             System.out.println("Class found = " + c.getName());
             Object obj = c.newInstance();
             Method method = null;
@@ -139,14 +154,14 @@ public class Routing {
             if(!param.equals("") && !paramType.equals("")){
                 if(paramType.equals("Integer")){
                     method = c.getDeclaredMethod(methodName,paramInt);
-                    method.invoke(obj, Integer.parseInt(param));
+                    response = (FullHttpResponse)method.invoke(obj, Integer.parseInt(param));
                 }else{ // String
                     method = c.getDeclaredMethod(methodName,paramString);
-                    method.invoke(obj, param);
+                    response = (FullHttpResponse)method.invoke(obj, param);
                 }
             }else{
                 method = c.getDeclaredMethod(methodName, noparams);
-                method.invoke(obj,null);
+                response = (FullHttpResponse)method.invoke(obj,null);
             }
 
         } catch (ClassNotFoundException e) {
@@ -160,9 +175,10 @@ public class Routing {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
+        return response;
     }
 
-    public void routing(HttpRequest httpRequest, HttpContent content){
+    public static FullHttpResponse routing(HttpRequest httpRequest, HttpContent content){
         if(routes.size() == 0 ){
             readConfig();
         }// read route file if routes =  empty
@@ -175,6 +191,6 @@ public class Routing {
         System.out.println("REQUEST URL "+ reqUrl);
         //process url
         assert(!reqUrl.equals(""));
-        processingRoute(reqUrl);
+        return processingRoute(reqUrl);
     }
 }
