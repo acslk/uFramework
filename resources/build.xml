@@ -7,6 +7,7 @@
     <property name="apacheio.jar" value="${lib.dir}/commons-io-2.5/commons-io-2.5.jar"/>
     <property name="u.jar" value="${lib.dir}/u.jar"/>
     <property name="lib.extension.dir" value="${lib.dir}/extension"/>
+    <property name="handlebars.jar" value="${lib.dir}/jknack-handlebars.java-1f6c48e/handlebars-4.0.6.jar"/>
 
     <path id="ext.path">
         <dirset dir="${lib.extension.dir}">
@@ -17,6 +18,7 @@
     <path id="lib.path">
         <pathelement location="${netty.jar}"/>
         <pathelement location="${apacheio.jar}"/>
+        <pathelement location="${handlebars.jar}"/>
         <path refid="ext.path" />
     </path>
 
