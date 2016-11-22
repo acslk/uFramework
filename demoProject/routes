@@ -1,6 +1,0 @@
-GET 	/index						HomeController.home
-POST 	/login 						HomeController.login
-POST 	/logout 					HomeController.logout
-POST 	/account/addpost			AccountController.addPost
-GET		/account/posts				AccountController.getPosts
-GET 	/account/post/<?id*>		AccountController.getPost(id)

@@ -12,9 +12,10 @@ public class InitProject {
     public static final String RESOURCE_URL = "resources";
     public static final String LIB_URL = "lib";
     public static final String CONFIG_FILE = "config.properties";
-    public static final String HANDLER_FILE = "RequestHandler.java";
 
     public static void main (String[] args) {
+
+        InitPaths.LOAD_CONFIG();
         InitPaths.PROJECT_DIR.mkdir();
         InitPaths.PROJECT_LIB_DIR.mkdir();
         InitPaths.PROJECT_EXT_LIB_DIR.mkdir();

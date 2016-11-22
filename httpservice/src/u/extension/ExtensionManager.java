@@ -87,6 +87,7 @@ public class ExtensionManager {
     }
 
     public void preprocess() {
+        BuiltPaths.EXT_STORE_DIR.mkdir();
         getExtFromStored();
         for (UExtension extension : getExtClasses()) {
             BuiltPaths.getExtStore(extension.getName(), "").mkdir();

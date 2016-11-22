@@ -43,3 +43,9 @@ build/
 
 # distribution
 dist/
+
+# generated project
+newProject/
+
+# demo library
+demo/lib/

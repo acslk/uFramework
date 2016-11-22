@@ -9,12 +9,11 @@ import java.io.IOException;
 public class PreprocessProject {
 
     public static void main(String[] args) throws IOException {
-        File input = new File(InitProject.HANDLER_FILE);
-        File output = new File(BuiltPaths.GEN_DIR, InitProject.HANDLER_FILE);
+
+        File input = new File(BuiltPaths.APP_DIR, "RequestHandler.java");
+        File output = new File(BuiltPaths.GEN_DIR, "RequestHandler.java");
         FileUtils.write(output, "package u.generated;\n", true);
         FileUtils.write(output, FileUtils.readFileToString(input), true);
-
-        BuiltPaths.EXT_STORE_DIR.mkdir();
 
         ExtensionManager extensionManager = new ExtensionManager();
         extensionManager.preprocess();

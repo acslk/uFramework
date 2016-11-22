@@ -69,6 +69,9 @@
 
     <target name="distModel" depends="compileModel">
         <mkdir dir="${dist.dir}/model"/>
+        <copy todir="${dist.dir}/model/uExt/model">
+            <fileset dir="${build.dir}/uExt/model"/>
+        </copy>
     </target>
 
     <target name="run">

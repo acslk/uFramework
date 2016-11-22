@@ -179,9 +179,10 @@ public class Model
         return result;
     }
 
-    public static synchronized List<Model> get(Class<?> clazz, Object... constraints) throws IllegalAccessException
+    public static synchronized <T extends Model> List<T> get(Class<T> clazz, Object... constraints) throws IllegalAccessException
     {
-        return get(getDefaultTableName(clazz), constraints);
+        List<? extends Model> ret = get(getDefaultTableName(clazz), constraints);
+        return (List<T>)ret;
     }
 
     public static synchronized void insert(String tableName, Model obj)

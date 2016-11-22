@@ -1,6 +1,9 @@
 package uExt.auth;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
+import javax.crypto.Cipher;
 
 public class Auth<T> {
 
@@ -8,9 +11,9 @@ public class Auth<T> {
 
     private static Auth auth = null;
 
+    private static Map<String, Map<String, T>> authMaps;
+
     public static Auth getInstance(String s) {
-        Class c;
-        c.asSubclass()
         if (auth == null)
             auth = new Auth();
         return auth;
