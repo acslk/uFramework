@@ -17,6 +17,17 @@ import java.math.BigInteger;
 
 public class Auth<T>
 {
+    private static Map<String, Auth<?>> globalAuth = new HashMap<>();
+
+    public static Auth get(String s) {
+        if (!globalAuth.containsKey(s)) {
+            Auth auth = new Auth(null, 10000);
+            globalAuth.put(s, auth);
+        }
+        return globalAuth.get(s);
+    }
+
+
     // default 30 minutes
     public static final long DEFAULT_EXPIRATION = 1800000L;
 

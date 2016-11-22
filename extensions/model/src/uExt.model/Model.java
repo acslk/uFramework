@@ -9,7 +9,7 @@ public class Model
     {
     }
 
-    /* static fields */
+    /* statics fields */
     public final static Object ANY_VALUE = new ModelAnyValue();
     private final static String DEFAULT_TABLE_NAME = "Default";
     private static final Map<String, List<Model>> tables = new HashMap<>();

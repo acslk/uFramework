@@ -3,6 +3,7 @@ package uExt.routing;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.QueryStringDecoder;
 import u.http.Responses;
 import u.script.BuiltPaths;
 import u.script.InitPaths;
@@ -14,7 +15,9 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,6 +25,8 @@ public class Routing {
 
     private static final Pattern pattern = Pattern.compile("([^(http)(https)])([^/]+)");
     private static final Pattern typePattern = Pattern.compile("\\[(.*?)\\]");
+
+    public static Map<String, Controller> controllerMap = new HashMap<>();
 
     private static class RouteInfo {
         Class<? extends Controller> controllerClass;
@@ -67,9 +72,10 @@ public class Routing {
         String paramType ="";
         String param = "";
 
+        // WHY WOULD YOU DO THIS????
         //TODO hardcode the route of '/'
         if(httpReq.equals("/")){
-            handler =  "MyController.homeHandler";
+            handler =  "MyController.home";
         }
 
         //go thru routes to find a match
@@ -148,7 +154,13 @@ public class Routing {
         try {// NOT ALLOWED to include class from test code
             Class c = Class.forName("controllers."+classPath);
             //System.out.println("Class found = " + c.getName());
-            Object obj = c.newInstance();
+            Object obj;
+            if (controllerMap.containsKey(c.getName())) {
+                obj = controllerMap.get(c.getName());
+            } else {
+                obj = c.newInstance();
+                controllerMap.put(c.getName(), (Controller)obj);
+            }
             ((Controller)obj).setRequestInfo(request, content);
             Method method = null;
             //invoke method
@@ -179,7 +191,7 @@ public class Routing {
         return response;
     }
 
-    public static FullHttpResponse routing(HttpRequest httpRequest, HttpContent content){
+    public static FullHttpResponse route(HttpRequest httpRequest, HttpContent content){
         if(routes.size() == 0 ){
             readConfig();
         }// read route file if routes =  empty
@@ -188,10 +200,14 @@ public class Routing {
         }
         //System.out.println("RECEIVED REQUEST: "+ httpRequest);
 
-        String reqUrl = httpRequest.uri();
+        QueryStringDecoder decoder = new QueryStringDecoder(httpRequest.uri());
+        String reqUrl = decoder.path();
         //System.out.println("REQUEST URL "+ reqUrl);
         //process url
         assert(!reqUrl.equals(""));
-        return processingRoute(reqUrl, httpRequest, content);
+        FullHttpResponse response = processingRoute(reqUrl, httpRequest, content);
+        if (response == null)
+            response = Responses.notFound("Not found");
+        return response;
     }
 }

@@ -1,28 +1,24 @@
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpRequest;
-import u.http.Responses;
 import uExt.routing.Routing;
+import uExt.statics.Statics;
 import uExt.template.HandlebarsTemplateEngine;
-
-import java.io.IOException;
+import uExt.template.Template;
 
 public class RequestHandler {
 
+    public RequestHandler () {
+        Template.use(new HandlebarsTemplateEngine());
+    }
+
     public FullHttpResponse handle(HttpRequest request, HttpContent content) {
+        FullHttpResponse response;
+        response = Statics.get(request);
+        if (response != null)
+            return response;
 
-        System.out.println(request.uri());
-
-        HandlebarsTemplateEngine a = new HandlebarsTemplateEngine();
-        String ret = "failed";
-        try {
-            ret = a.render("a.html", "a");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //return Routing.routing(request, content);
-        return Responses.ok(ret);
+        return Routing.route(request, content);
     }
 
 }

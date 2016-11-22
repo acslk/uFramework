@@ -8,6 +8,7 @@
       <module fileurl="file://$PROJECT_DIR$/httpservice/httpservice.iml" filepath="$PROJECT_DIR$/httpservice/httpservice.iml" />
       <module fileurl="file://$PROJECT_DIR$/lib/jknack-handlebars.java-1f6c48e/handlebars-helpers/src/main/main.iml" filepath="$PROJECT_DIR$/lib/jknack-handlebars.java-1f6c48e/handlebars-helpers/src/main/main.iml" />
       <module fileurl="file://$PROJECT_DIR$/lib/jknack-handlebars.java-1f6c48e/handlebars/src/main/main1.iml" filepath="$PROJECT_DIR$/lib/jknack-handlebars.java-1f6c48e/handlebars/src/main/main1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/newProject/newProject.iml" filepath="$PROJECT_DIR$/newProject/newProject.iml" />
       <module fileurl="file://$PROJECT_DIR$/lib/jknack-handlebars.java-1f6c48e/handlebars-helpers/src/test/test.iml" filepath="$PROJECT_DIR$/lib/jknack-handlebars.java-1f6c48e/handlebars-helpers/src/test/test.iml" />
       <module fileurl="file://$PROJECT_DIR$/lib/jknack-handlebars.java-1f6c48e/handlebars/src/test/test1.iml" filepath="$PROJECT_DIR$/lib/jknack-handlebars.java-1f6c48e/handlebars/src/test/test1.iml" />
       <module fileurl="file://$PROJECT_DIR$/uFramework.iml" filepath="$PROJECT_DIR$/uFramework.iml" />

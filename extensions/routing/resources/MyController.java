@@ -9,22 +9,15 @@ import uExt.routing.*;
 import java.util.ArrayList;
 
 public class MyController extends Controller {
-    private ArrayList<Integer> clientList;
-    public MyController (){
-        clientList = new ArrayList<Integer>();
-        for (int i = 0; i < 10; i++) {
-            clientList.add(i);
-        }
-    }
 
     //GET
-    public FullHttpResponse homeHandler() {
+    public FullHttpResponse home() {
         return Responses.ok("Hello World");
     }
 
     public FullHttpResponse printClientById(int id){
-        System.out.println("clientId is: " + clientList.get(id));
-        return Responses.ok("clientId is: " + clientList.get(id));
+        System.out.println("clientId is: " + id);
+        return Responses.ok("clientId is: " + id);
     }
 
 

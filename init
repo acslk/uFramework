@@ -2,4 +2,5 @@ using:routing
 using:model
 using:auth
 using:template
-project:demo
+using:statics
+project:newProject

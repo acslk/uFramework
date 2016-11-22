@@ -7,6 +7,10 @@ import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
 import com.github.jknack.handlebars.io.FileTemplateLoader;
 import com.github.jknack.handlebars.io.TemplateLoader;
+import io.netty.handler.codec.http.FullHttpResponse;
+import io.netty.handler.codec.http.HttpHeaderNames;
+import io.netty.handler.codec.http.HttpResponse;
+import u.http.Responses;
 import u.script.BuiltPaths;
 
 /**
@@ -14,7 +18,7 @@ import u.script.BuiltPaths;
  * https://github.com/jknack/handlebars.java.
  * Defaults to the 'templates' directory under the resource path.
  */
-public class HandlebarsTemplateEngine extends UExtensionMain {
+public class HandlebarsTemplateEngine implements TemplateEngine {
 
     protected Handlebars handlebars;
 
@@ -45,12 +49,22 @@ public class HandlebarsTemplateEngine extends UExtensionMain {
      * @return
      * @throws IOException
      */
-    @Override
     public String render(String viewName, String model)throws IOException {
-
         try {
             Template template = handlebars.compile(viewName);
             return template.apply(model);
+        } catch (IOException e) {
+            throw e;
+        }
+    }
+
+    public FullHttpResponse renderHtml(String viewName, String model)throws IOException {
+        try {
+            Template template = handlebars.compile(viewName);
+            String html = template.apply(model);
+            FullHttpResponse response = Responses.ok(html);
+            response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/html; charset=UTF-8");
+            return response;
         } catch (IOException e) {
             throw e;
         }

@@ -43,8 +43,6 @@ public class MainServerHandler extends SimpleChannelInboundHandler<Object> {
             FullHttpResponse response = (FullHttpResponse)handlerFn.invoke(requestHandlerInstance, request, content);
             //FullHttpResponse response = RequestHandler.handle(request, content);
 
-            response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/plain; charset=UTF-8");
-
             if (keepAlive) {
                 response.headers().setInt(HttpHeaderNames.CONTENT_LENGTH, response.content().readableBytes());
                 response.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);

@@ -71,6 +71,17 @@
             </classpath>
         </javac>
     </target>
+
+    <target name="compileStatics" depends="compile">
+        <javac srcdir="extensions/statics/src" destdir="${build.dir}">
+            <classpath>
+                <pathelement location="${netty.jar}"/>
+                <pathelement location="${handlebar.jar}"/>
+                <pathelement location="${apacheio.jar}"/>
+                <pathelement location="${build.dir}"/>
+            </classpath>
+        </javac>
+    </target>
     
     <target name="jar" depends="compile">
         <copy todir="${build.dir}/resources">
@@ -110,6 +121,13 @@
         </copy>
     </target>
 
+    <target name="distStatics" depends="compileStatics">
+        <mkdir dir="${dist.dir}/statics"/>
+        <copy todir="${dist.dir}/statics/uExt/statics">
+            <fileset dir="${build.dir}/uExt/statics"/>
+        </copy>
+    </target>
+
     <target name="run">
         <java classname="u.http.HttpMain">
             <classpath>
@@ -120,7 +138,7 @@
         </java>
     </target>
 
-    <target name="init" depends="jar,distR,distModel, distAuth, distT">
+    <target name="init" depends="jar,distR,distModel, distAuth, distT, distStatics">
         <java classname="u.script.InitProject">
             <classpath>
                 <pathelement location="${netty.jar}"/>
@@ -131,7 +149,9 @@
         </java>
     </target>
 
-    <target name="updateDemoLib" depends="jar,distR,distModel, distAuth, distT">
+    <target name="demoLib" depends="jar,distR,distModel, distAuth, distT, distStatics">
+        <delete dir="demo/lib"/>
+        <delete dir="demo/bin"/>
         <copy todir="abc">
             <fileset dir="demo/app"/>
         </copy>
@@ -143,6 +163,7 @@
                 <path refid="ext.path" />
             </classpath>
         </java>
+        <delete dir="demo/app"/>
         <copy todir="demo/app">
             <fileset dir="abc"/>
         </copy>

@@ -13,14 +13,15 @@ import java.io.IOException;
 public class UExtensionMain  implements UExtension {
 
 
-    public String render(String viewName, String model)throws IOException {
-
-        return "";
-    }
-
-    public String renderInLine(String inlineTemplate, String model) throws IOException {
-        return "";
-    }
+    //What are these for?
+//    public String render(String viewName, String model)throws IOException {
+//
+//        return "";
+//    }
+//
+//    public String renderInLine(String inlineTemplate, String model) throws IOException {
+//        return "";
+//    }
 
 
     @Override

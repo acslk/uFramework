@@ -10,13 +10,13 @@
 #[TYPE]: assume commmon type: String / Integer
 
 #invoke this route like: /client/:3
-GET /client/:[Integer]id MyController.printClientById([Integer] id)
+#GET /client/:[Integer]id MyController.printClientById([Integer] id)
 
-GET     /                       MyController.homeHandler
-GET     /index                  MyController.homeHandler
-GET     /aa/a                   MyController.homeHandler
-GET     /[abc]                  MyController.homeHandler
-GET     /[0-9]                  MyController.homeHandler
-GET     /X?+                    MyController.homeHandler
-GET     /client/:[Integer]id    MyController.printClientById([Integer] id)
-GET     /clienty/:[Integer]id   YController.printClientById([Integer] id)
+GET     /                       MyController.home
+GET     /index                  MyController.home
+GET     /login                  MyController.loginpage
+GET     /signup                 MyController.signuppage
+POST    /loginhandler           UserController.login
+POST    /signuphandler          UserController.signup
+GET     /client/                UserController.self
+GET     /client/:[Integer]p     UserController.getUser([Integer] p)
