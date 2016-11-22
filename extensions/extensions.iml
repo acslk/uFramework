@@ -35,18 +35,10 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../lib/jknack-handlebars.java-1f6c48e" />
+          <root url="jar://$MODULE_DIR$/../lib/jknack-handlebars.java-1f6c48e/handlebars-4.0.6.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/../lib/jknack-handlebars.java-1f6c48e/handlebars-helpers/src/main/java" />
-          <root url="file://$MODULE_DIR$/../lib/jknack-handlebars.java-1f6c48e/handlebars-helpers/src/test/java" />
-          <root url="file://$MODULE_DIR$/../lib/jknack-handlebars.java-1f6c48e/handlebars/src/main/java" />
-          <root url="file://$MODULE_DIR$/../lib/jknack-handlebars.java-1f6c48e/handlebars/src/test/java" />
-          <root url="file://$MODULE_DIR$/../lib/jknack-handlebars.java-1f6c48e/handlebars/src/test/resources/com/github/jknack/handlebars/context" />
-          <root url="file://$MODULE_DIR$/../lib/jknack-handlebars.java-1f6c48e/handlebars/target/antlr4" />
-          <root url="file://$MODULE_DIR$/../lib/jknack-handlebars.java-1f6c48e/handlebars/target/test-classes/com/github/jknack/handlebars/context" />
-        </SOURCES>
+        <SOURCES />
       </library>
     </orderEntry>
   </component>

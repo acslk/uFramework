@@ -6,6 +6,7 @@
     <property name="httpsrc.dir" value="httpservice/src"/>
     <property name="lib.dir" value="lib"/>
     <property name="netty.jar" value="${lib.dir}/netty/netty-all-4.1.6.Final.jar"/>
+    <property name="handlebar.jar" value="${lib.dir}/jknack-handlebars.java-1f6c48e/handlebars-4.0.6.jar"/>
     <property name="apacheio.jar" value="${lib.dir}/commons-io-2.5/commons-io-2.5.jar"/>
 
     <path id="ext.path">
@@ -50,6 +51,27 @@
         </javac>
     </target>
 
+    <target name="compileAuth" depends="compile">
+        <javac srcdir="extensions/auth/src" destdir="${build.dir}">
+            <classpath>
+                <pathelement location="${netty.jar}"/>
+		<pathelement location="${apacheio.jar}"/>
+                <pathelement location="${build.dir}"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="compileT" depends="compile">
+        <javac srcdir="extensions/template/src" destdir="${build.dir}">
+            <classpath>
+                <pathelement location="${netty.jar}"/>
+                <pathelement location="${handlebar.jar}"/>
+                <pathelement location="${apacheio.jar}"/>
+                <pathelement location="${build.dir}"/>
+            </classpath>
+        </javac>
+    </target>
+    
     <target name="jar" depends="compile">
         <copy todir="${build.dir}/resources">
             <fileset dir="resources"/>
@@ -74,6 +96,20 @@
         </copy>
     </target>
 
+    <target name="distAuth" depends="compileAuth">
+        <mkdir dir="${dist.dir}/auth"/>
+        <copy todir="${dist.dir}/auth/uExt/auth">
+            <fileset dir="${build.dir}/uExt/auth"/>
+        </copy>
+    </target>
+    
+    <target name="distT" depends="compileT">
+        <mkdir dir="${dist.dir}/template"/>
+        <copy todir="${dist.dir}/template/uExt/template">
+            <fileset dir="${build.dir}/uExt/template"/>
+        </copy>
+    </target>
+
     <target name="run">
         <java classname="u.http.HttpMain">
             <classpath>
@@ -84,7 +120,7 @@
         </java>
     </target>
 
-    <target name="init" depends="jar,distR,distModel">
+    <target name="init" depends="jar,distR,distModel, distAuth, distT">
         <java classname="u.script.InitProject">
             <classpath>
                 <pathelement location="${netty.jar}"/>
