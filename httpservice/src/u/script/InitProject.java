@@ -9,7 +9,7 @@ import java.io.IOException;
 public class InitProject {
 
     public static final String UJAR = "dist/u.jar";
-    public static final String RESOURCE_URL = "resources";
+    public static final String RESOURCE_URL = "dist/resources";
     public static final String LIB_URL = "lib";
     public static final String CONFIG_FILE = "config.properties";
 

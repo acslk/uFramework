@@ -84,7 +84,7 @@
     </target>
     
     <target name="jar" depends="compile">
-        <copy todir="${build.dir}/resources">
+        <copy todir="${dist.dir}/resources">
             <fileset dir="resources"/>
         </copy>
         <jar destfile="${dist.jar}" basedir="${build.dir}"/>
@@ -138,7 +138,9 @@
         </java>
     </target>
 
-    <target name="init" depends="jar,distR,distModel, distAuth, distT, distStatics">
+    <target name="distAll" depends="jar,distR,distModel, distAuth, distT, distStatics"/>
+
+    <target name="init">
         <java classname="u.script.InitProject">
             <classpath>
                 <pathelement location="${netty.jar}"/>
